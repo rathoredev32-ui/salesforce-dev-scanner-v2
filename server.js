@@ -85,7 +85,7 @@ function callGemini(prompt, apiKey) {
 
         const options = {
             hostname: 'generativelanguage.googleapis.com',
-            path: `/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`,
+            path: `/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
