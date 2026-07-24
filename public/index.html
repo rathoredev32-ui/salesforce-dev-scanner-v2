@@ -346,7 +346,7 @@
         </div>
         <div id="voiceStatus" style="display:none; margin-top:10px; font-size:0.82rem; color:#f87171; display:flex; align-items:center; gap:8px;">
             <i class="fas fa-circle" style="font-size:0.5rem; animation:pulse-led 0.8s infinite;"></i>
-            <span>Listening... bolo jo search karna hai</span>
+            <span>Listening... speak your search query now</span>
         </div>
     </div>
 
@@ -368,7 +368,7 @@
         <div class="ai-avatar">🤖</div>
         <div class="ai-panel-title">
             <h3>Salesforce AI Assistant</h3>
-            <p>Hindi · English · Hinglish — sab samajhta hun</p>
+            <p>Ask in Hindi · English · or any language</p>
         </div>
         <button class="ai-close-btn" onclick="toggleAIPanel()">
             <i class="fas fa-times"></i>
@@ -378,19 +378,19 @@
     <div class="ai-messages" id="aiMessages">
         <div class="ai-welcome-msg">
             <div class="ai-avatar-big">🤖</div>
-            <h4>Namaste! Main aapka Salesforce AI Assistant hun</h4>
-            <p>Mujhse koi bhi sawaal pucho apni Salesforce org ke baare mein.<br>Hindi, English, ya Hinglish — sab chalega!</p>
+            <h4>Salesforce Org Intelligence Assistant</h4>
+            <p>Ask anything about your Salesforce org.<br>I'll scan your live metadata and explain the results instantly.</p>
             <div class="suggestion-chips">
-                <div class="chip" onclick="askSuggestion('Closed-Won picklist value kahan kahan use ho rahi hai?')">Closed-Won kahan use hai?</div>
-                <div class="chip" onclick="askSuggestion('Account object use karne wale Apex classes kaun se hain?')">Account ke Apex classes?</div>
-                <div class="chip" onclick="askSuggestion('Koi hardcoded email address hai kya code mein?')">Hardcoded emails?</div>
+                <div class="chip" onclick="askSuggestion('Where is Closed-Won picklist value used across the org?')">Where is Closed-Won used?</div>
+                <div class="chip" onclick="askSuggestion('Which Apex classes reference the Account object?')">Apex classes using Account?</div>
+                <div class="chip" onclick="askSuggestion('Are there any hardcoded email addresses in the codebase?')">Hardcoded emails?</div>
                 <div class="chip" onclick="askSuggestion('Which flows are using the Stage field?')">Flows using Stage?</div>
             </div>
         </div>
     </div>
 
     <div class="ai-input-area">
-        <textarea id="aiInput" class="ai-input" placeholder="Hindi ya English mein pucho..." rows="1" 
+        <textarea id="aiInput" class="ai-input" placeholder="Ask anything about your Salesforce org..." rows="1" 
             onkeydown="handleAiKeydown(event)" oninput="autoResize(this)"></textarea>
         <button class="ai-mic-btn" id="aiMicBtn" onclick="toggleAiVoice()" title="Voice input">
             <i class="fas fa-microphone" id="aiMicIcon"></i>
@@ -424,7 +424,7 @@
     function toggleVoiceSearch() {
         const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRec) {
-            showToast('⚠️ Voice search Chrome mein kaam karta hai. Please Chrome use karo.', '#f97316');
+            showToast('⚠️ Voice search requires Google Chrome. Please use Chrome.', '#f97316');
             return;
         }
 
@@ -444,7 +444,7 @@
         recognition.onresult = (e) => {
             const transcript = e.results[0][0].transcript;
             document.getElementById('searchInput').value = transcript;
-            showToast(`🎤 Suna: "${transcript}"`, '#10b981');
+            showToast(`🎤 Heard: "${transcript}"`, '#10b981');
             setTimeout(() => triggerDeepScan(), 400);
         };
 
@@ -594,7 +594,7 @@
 
     function toggleAiVoice() {
         const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!SpeechRec) { showToast('Chrome use karo voice ke liye', '#f97316'); return; }
+        if (!SpeechRec) { showToast('Voice input requires Google Chrome', '#f97316'); return; }
 
         if (aiVoiceListening) {
             if (aiRecognition) aiRecognition.stop();
@@ -716,7 +716,7 @@
 
             if (data.error) {
                 addMessage('ai', `❌ ${escapeHtml(data.error)}`);
-            } else {
+        } else {
                 // Format the AI answer with markdown-like rendering
                 const formattedAnswer = (data.answer || '')
                     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
@@ -729,7 +729,7 @@
         } catch (err) {
             const typing = document.getElementById('typingIndicator');
             if (typing) typing.remove();
-            addMessage('ai', '❌ Server se connect nahi ho pa raha. Please try again.');
+            addMessage('ai', '❌ Unable to connect to the server. Please try again.');
         }
 
         sendBtn.disabled = false;
@@ -785,8 +785,8 @@
                 welcomeDiv.innerHTML = `
                     <div class="empty-state" style="border-color: #2c3e66;">
                         <i class="fas fa-radar" style="font-size: 3rem; color:#3b82f6;"></i>
-                        <h3 style="margin: 15px 0 8px;">🚀 Ready for deep reconnaissance</h3>
-                        <p>Enter any text, or use <strong style="color:#a78bfa;">🤖 AI Assistant</strong> (bottom-right) to ask in Hindi/English!</p>
+                        <h3 style="margin: 15px 0 8px;">🚀 Ready for Deep Reconnaissance</h3>
+                        <p>Enter any field name, value, or component — or use the <strong style="color:#a78bfa;">🤖 AI Assistant</strong> (bottom-right) to ask in natural language.</p>
                     </div>
                 `;
             } else {
