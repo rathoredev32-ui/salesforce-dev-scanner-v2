@@ -17,21 +17,37 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ==========================================
-// OAUTH 2.0 CONFIGURATION (Your Connected App)
+// OAUTH 2.0 CONFIGURATION (Dynamic for any Environment/Host)
 // ==========================================
-const oauth2 = new jsforce.OAuth2({
-    clientId: '3MVG9dAEux2v1sLuV7AizDLNmYgtEmEsfCv5QOVNWmm7Qkaz0yMuTgHmfKrFl.wXvllM42FLN_oeBr2JbofL0',
-    clientSecret: '053A9F370345DCD35A7653A9B707DD903E2F00B2A251DCBCE20B1EC759FC6C9E',
-    redirectUri: process.env.REDIRECT_URI || 'http://localhost:3000/auth/callback'
-});
+
+function getOAuth2(req) {
+    const host = req.get('host');
+    const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+    const baseUrl = `${protocol}://${host}`;
+    
+    // Check if the user selected a sandbox environment
+    const env = req.query.env || req.session.loginEnv || 'production';
+    req.session.loginEnv = env;
+    
+    const loginUrl = env === 'sandbox' ? 'https://test.salesforce.com' : 'https://login.salesforce.com';
+    
+    return new jsforce.OAuth2({
+        clientId: process.env.CLIENT_ID || '3MVG9dAEux2v1sLuV7AizDLNmYgtEmEsfCv5QOVNWmm7Qkaz0yMuTgHmfKrFl.wXvllM42FLN_oeBr2JbofL0',
+        clientSecret: process.env.CLIENT_SECRET || '053A9F370345DCD35A7653A9B707DD903E2F00B2A251DCBCE20B1EC759FC6C9E',
+        redirectUri: `${baseUrl}/auth/callback`,
+        loginUrl: loginUrl
+    });
+}
 
 // 1. Login Route: User ko Salesforce ke login page par bhejega
 app.get('/auth/login', (req, res) => {
+    const oauth2 = getOAuth2(req);
     res.redirect(oauth2.getAuthorizationUrl({ scope: 'api refresh_token offline_access' }));
 });
 
 // 2. Callback Route: Salesforce login hone ke baad token yahan aayega
 app.get('/auth/callback', async (req, res) => {
+    const oauth2 = getOAuth2(req);
     const conn = new jsforce.Connection({ oauth2 : oauth2 });
     try {
         await conn.authorize(req.query.code);
