@@ -76,7 +76,6 @@ app.get('/auth/logout', (req, res) => {
 
 // ==========================================
 // GEMINI AI HELPER
-// ==========================================
 function callGemini(prompt, apiKey) {
     return new Promise((resolve, reject) => {
         const body = JSON.stringify({
@@ -86,7 +85,7 @@ function callGemini(prompt, apiKey) {
 
         const options = {
             hostname: 'generativelanguage.googleapis.com',
-            path: `/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+            path: `/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
