@@ -76,7 +76,7 @@ app.get('/auth/logout', (req, res) => {
 
 // ==========================================
 // GEMINI AI HELPER
-function callGemini(prompt, apiKey) {
+function callGemini(prompt, apiKey, retries = 3, delay = 1000) {
     return new Promise((resolve, reject) => {
         const body = JSON.stringify({
             contents: [{ parts: [{ text: prompt }] }],
@@ -99,13 +99,31 @@ function callGemini(prompt, apiKey) {
             resp.on('end', () => {
                 try {
                     const parsed = JSON.parse(data);
-                    if (parsed.error) return reject(new Error(parsed.error.message));
+                    if (parsed.error) {
+                        const errMsg = parsed.error.message || '';
+                        // If it's a high demand/503 error and we have retries left, try again
+                        if ((resp.statusCode === 503 || errMsg.toLowerCase().includes('high demand') || errMsg.toLowerCase().includes('overloaded')) && retries > 0) {
+                            console.log(`[Gemini API] High demand, retrying in ${delay}ms... (${retries} retries left)`);
+                            setTimeout(() => resolve(callGemini(prompt, apiKey, retries - 1, delay * 2)), delay);
+                            return;
+                        }
+                        return reject(new Error(errMsg));
+                    }
                     const text = parsed.candidates?.[0]?.content?.parts?.[0]?.text || 'No response from AI.';
                     resolve(text);
                 } catch(e) { reject(e); }
             });
         });
-        req.on('error', reject);
+        
+        req.on('error', (err) => {
+            if (retries > 0) {
+                console.log(`[Gemini API] Network error, retrying in ${delay}ms...`);
+                setTimeout(() => resolve(callGemini(prompt, apiKey, retries - 1, delay * 2)), delay);
+                return;
+            }
+            reject(err);
+        });
+        
         req.write(body);
         req.end();
     });
