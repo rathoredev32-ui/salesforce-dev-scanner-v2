@@ -7,11 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background: radial-gradient(circle at 10% 20%, #0a0c12 0%, #03050a 100%);
@@ -21,299 +17,146 @@
             color: #eef5ff;
         }
 
-        /* Animated glassmorphic container */
-        .glass-panel {
-            max-width: 1400px;
-            margin: 0 auto;
-            backdrop-filter: blur(2px);
-            border-radius: 2.5rem;
-            position: relative;
-        }
+        .glass-panel { max-width: 1400px; margin: 0 auto; backdrop-filter: blur(2px); border-radius: 2.5rem; position: relative; }
 
-        /* header nebula effect */
         .scanner-header {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 2.5rem;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
-            padding-bottom: 1.5rem;
+            display: flex; flex-wrap: wrap; justify-content: space-between;
+            align-items: flex-end; margin-bottom: 2.5rem;
+            border-bottom: 1px solid rgba(0,255,255,0.2); padding-bottom: 1.5rem;
         }
 
         .title-section h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
+            font-size: 2.8rem; font-weight: 800;
             background: linear-gradient(135deg, #C0F2FF 0%, #3B82F6 60%, #00E0FF 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: -0.02em;
-            display: inline-flex;
-            align-items: center;
-            gap: 15px;
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            letter-spacing: -0.02em; display: inline-flex; align-items: center; gap: 15px;
         }
 
-        .title-section h1 i {
-            background: none;
-            -webkit-background-clip: unset;
-            background-clip: unset;
-            color: #3b82f6;
-            font-size: 2.4rem;
-            text-shadow: 0 0 10px #00a6ff;
-        }
+        .title-section h1 i { background: none; -webkit-background-clip: unset; background-clip: unset; color: #3b82f6; font-size: 2.4rem; text-shadow: 0 0 10px #00a6ff; }
 
         .badge-conn {
-            background: rgba(16, 185, 129, 0.2);
-            backdrop-filter: blur(8px);
-            padding: 0.5rem 1.2rem;
-            border-radius: 60px;
-            border: 1px solid rgba(52, 211, 153, 0.5);
-            font-weight: 500;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #6ee7b7;
+            background: rgba(16,185,129,0.2); backdrop-filter: blur(8px); padding: 0.5rem 1.2rem;
+            border-radius: 60px; border: 1px solid rgba(52,211,153,0.5); font-weight: 500;
+            font-size: 0.85rem; display: flex; align-items: center; gap: 8px; color: #6ee7b7;
         }
 
-        .badge-conn i {
-            font-size: 0.9rem;
-            animation: pulse 1.8s infinite;
-        }
+        .badge-conn i { font-size: 0.9rem; animation: pulse 1.8s infinite; }
 
-        @keyframes pulse {
-            0% { opacity: 0.5; text-shadow: 0 0 0px #2ecc71; }
-            100% { opacity: 1; text-shadow: 0 0 6px #2ecc71; }
-        }
+        @keyframes pulse { 0% { opacity:0.5; text-shadow:0 0 0px #2ecc71; } 100% { opacity:1; text-shadow:0 0 6px #2ecc71; } }
 
-        /* scan card */
         .scan-card {
-            background: rgba(12, 18, 28, 0.65);
-            backdrop-filter: blur(12px);
-            border-radius: 2rem;
-            border: 1px solid rgba(59, 130, 246, 0.4);
-            box-shadow: 0 25px 40px -15px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.05);
-            padding: 2rem;
-            margin-bottom: 2.5rem;
-            transition: all 0.2s;
+            background: rgba(12,18,28,0.65); backdrop-filter: blur(12px);
+            border-radius: 2rem; border: 1px solid rgba(59,130,246,0.4);
+            box-shadow: 0 25px 40px -15px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+            padding: 2rem; margin-bottom: 2.5rem; transition: all 0.2s;
         }
 
-        .input-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            align-items: center;
-            margin-top: 1rem;
-        }
+        .input-group { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-top: 1rem; }
 
         .search-field {
-            flex: 4;
-            min-width: 220px;
-            background: #0b1018;
-            border: 1.5px solid #2d3a51;
-            border-radius: 2rem;
-            padding: 0.9rem 1.5rem;
-            font-size: 1rem;
-            color: #ffffff;
-            font-weight: 500;
-            transition: all 0.25s;
-            font-family: 'Inter', monospace;
+            flex: 4; min-width: 220px; background: #0b1018;
+            border: 1.5px solid #2d3a51; border-radius: 2rem;
+            padding: 0.9rem 1.5rem; font-size: 1rem; color: #ffffff;
+            font-weight: 500; transition: all 0.25s; font-family: 'Inter', monospace;
         }
 
-        .search-field:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.3);
-            background: #0a0f18;
-        }
+        .search-field:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.3); background: #0a0f18; }
 
         .scan-btn {
-            flex: 1;
-            background: linear-gradient(95deg, #1e2a4a, #0f172a);
-            border: 1px solid #3b82f6;
-            padding: 0.9rem 1.8rem;
-            border-radius: 2rem;
-            font-weight: 700;
-            font-size: 1rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            color: #e0f2fe;
-            cursor: pointer;
-            transition: 0.2s;
-            backdrop-filter: blur(4px);
-            letter-spacing: 0.3px;
+            flex: 1; background: linear-gradient(95deg, #1e2a4a, #0f172a);
+            border: 1px solid #3b82f6; padding: 0.9rem 1.8rem; border-radius: 2rem;
+            font-weight: 700; font-size: 1rem; display: inline-flex; align-items: center;
+            justify-content: center; gap: 12px; color: #e0f2fe; cursor: pointer;
+            transition: 0.2s; backdrop-filter: blur(4px); letter-spacing: 0.3px;
         }
 
-        .scan-btn i {
-            font-size: 1.2rem;
+        .scan-btn:hover { background: linear-gradient(95deg, #2c3c64, #1e2a44); border-color: #60a5fa; transform: scale(1.02); box-shadow: 0 6px 14px rgba(0,100,255,0.3); }
+        .scan-btn:disabled { opacity: 0.6; transform: none; cursor: not-allowed; filter: grayscale(0.1); }
+
+        /* Mic Button */
+        .mic-btn {
+            width: 52px; height: 52px; border-radius: 50%;
+            background: linear-gradient(135deg, #1e3a5f, #0f2040);
+            border: 1.5px solid #3b82f6; display: flex; align-items: center;
+            justify-content: center; cursor: pointer; transition: all 0.2s;
+            color: #7dd3fc; font-size: 1.1rem; flex-shrink: 0;
         }
 
-        .scan-btn:hover {
-            background: linear-gradient(95deg, #2c3c64, #1e2a44);
-            border-color: #60a5fa;
-            transform: scale(1.02);
-            box-shadow: 0 6px 14px rgba(0, 100, 255, 0.3);
+        .mic-btn:hover { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; transform: scale(1.08); box-shadow: 0 0 15px rgba(59,130,246,0.5); }
+
+        .mic-btn.listening {
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            border-color: #ef4444; color: white;
+            animation: mic-pulse 1s ease-in-out infinite;
         }
 
-        .scan-btn:disabled {
-            opacity: 0.6;
-            transform: none;
-            cursor: not-allowed;
-            filter: grayscale(0.1);
+        @keyframes mic-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); }
+            50% { box-shadow: 0 0 0 12px rgba(239,68,68,0); }
         }
 
         .loader-matrix {
-            display: none;
-            margin: 1.5rem 0 0.5rem;
-            background: rgba(0, 20, 40, 0.7);
-            border-left: 4px solid #00e0ff;
-            padding: 1rem 1.3rem;
-            border-radius: 1.2rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 500;
-            backdrop-filter: blur(4px);
-            color: #9efff0;
-            align-items: center;
-            gap: 14px;
+            display: none; margin: 1.5rem 0 0.5rem;
+            background: rgba(0,20,40,0.7); border-left: 4px solid #00e0ff;
+            padding: 1rem 1.3rem; border-radius: 1.2rem;
+            font-family: 'JetBrains Mono', monospace; font-weight: 500;
+            backdrop-filter: blur(4px); color: #9efff0; align-items: center; gap: 14px;
         }
 
-        .loader-matrix i {
-            font-size: 1.6rem;
-            animation: spin 1.2s linear infinite;
-        }
+        .loader-matrix i { font-size: 1.6rem; animation: spin 1.2s linear infinite; }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg);}
-            100% { transform: rotate(360deg);}
-        }
+        @keyframes spin { 0% { transform: rotate(0deg);} 100% { transform: rotate(360deg);} }
 
-        /* results headline */
         .results-header {
-            margin: 1rem 0 1.6rem 0;
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
+            margin: 1rem 0 1.6rem 0; display: flex; align-items: baseline;
+            justify-content: space-between; flex-wrap: wrap; gap: 10px;
         }
 
         .match-counter {
-            background: rgba(59,130,246,0.2);
-            padding: 0.4rem 1.1rem;
-            border-radius: 40px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border: 1px solid #3b82f6;
-            backdrop-filter: blur(2px);
+            background: rgba(59,130,246,0.2); padding: 0.4rem 1.1rem;
+            border-radius: 40px; font-size: 0.9rem; font-weight: 600;
+            border: 1px solid #3b82f6; backdrop-filter: blur(2px);
         }
 
-        .grid-cards {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
+        .grid-cards { display: flex; flex-direction: column; gap: 1rem; }
 
-        /* modern ultraclean result tile */
         .result-tile {
-            background: rgba(0, 0, 0, 0.55);
-            backdrop-filter: blur(16px);
-            border-radius: 1.5rem;
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            padding: 1rem 1.5rem;
-            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
+            background: rgba(0,0,0,0.55); backdrop-filter: blur(16px);
+            border-radius: 1.5rem; border: 1px solid rgba(0,255,255,0.2);
+            padding: 1rem 1.5rem; transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 1rem;
         }
 
-        .result-tile:hover {
-            border-color: rgba(59, 130, 246, 0.7);
-            background: rgba(8, 15, 28, 0.85);
-            transform: translateX(5px);
-            box-shadow: 0 12px 22px -10px rgba(0,0,0,0.5);
-        }
+        .result-tile:hover { border-color: rgba(59,130,246,0.7); background: rgba(8,15,28,0.85); transform: translateX(5px); box-shadow: 0 12px 22px -10px rgba(0,0,0,0.5); }
 
-        .tile-content {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            flex: 3;
-        }
+        .tile-content { display: flex; flex-direction: column; gap: 8px; flex: 3; }
 
         .type-badge-modern {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #0f212e;
-            padding: 4px 14px;
-            border-radius: 40px;
-            width: fit-content;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #7dd3fc;
-            border: 0.5px solid #3b82f6;
+            display: inline-flex; align-items: center; gap: 8px; background: #0f212e;
+            padding: 4px 14px; border-radius: 40px; width: fit-content;
+            font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.5px; color: #7dd3fc; border: 0.5px solid #3b82f6;
         }
 
-        .match-name {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #f0f9ff;
-            word-break: break-word;
-        }
-
-        .match-detail {
-            font-size: 0.85rem;
-            color: #94a3b8;
-            font-family: 'SF Mono', monospace;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
+        .match-name { font-size: 1.3rem; font-weight: 700; color: #f0f9ff; word-break: break-word; }
+        .match-detail { font-size: 0.85rem; color: #94a3b8; font-family: 'SF Mono', monospace; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 
         .open-link {
-            background: rgba(59,130,246,0.15);
-            backdrop-filter: blur(5px);
-            padding: 0.7rem 1.3rem;
-            border-radius: 2rem;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.8rem;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #b9e2ff;
-            border: 1px solid #3b82f6;
+            background: rgba(59,130,246,0.15); backdrop-filter: blur(5px);
+            padding: 0.7rem 1.3rem; border-radius: 2rem; text-decoration: none;
+            font-weight: 600; font-size: 0.8rem; transition: 0.2s; display: inline-flex;
+            align-items: center; gap: 8px; color: #b9e2ff; border: 1px solid #3b82f6;
         }
 
-        .open-link:hover {
-            background: #2563eb;
-            color: white;
-            border-color: white;
-            transform: scale(0.98);
-        }
+        .open-link:hover { background: #2563eb; color: white; border-color: white; transform: scale(0.98); }
 
         .empty-state {
-            text-align: center;
-            padding: 3rem;
-            background: rgba(255,255,255,0.02);
-            border-radius: 2rem;
-            border: 1px dashed #3b82f680;
+            text-align: center; padding: 3rem; background: rgba(255,255,255,0.02);
+            border-radius: 2rem; border: 1px dashed #3b82f680;
         }
 
-        .empty-state i {
-            font-size: 3.2rem;
-            margin-bottom: 1rem;
-            color: #2c6e9e;
-        }
+        .empty-state i { font-size: 3.2rem; margin-bottom: 1rem; color: #2c6e9e; }
 
         @media (max-width: 760px) {
             body { padding: 1rem; }
@@ -322,30 +165,147 @@
             .result-tile { flex-direction: column; align-items: flex-start; }
         }
 
-        .glow-text {
-            text-shadow: 0 0 2px cyan;
+        .glow-text { text-shadow: 0 0 2px cyan; }
+        .status-led { width: 10px; height: 10px; background: #10b981; border-radius: 50%; display: inline-block; box-shadow: 0 0 5px #2ecc71; animation: pulse-led 1.5s infinite; }
+        @keyframes pulse-led { 0% { opacity:0.4; transform:scale(0.8); } 100% { opacity:1; transform:scale(1.2); } }
+
+        footer { text-align: center; margin-top: 3rem; font-size: 0.75rem; opacity: 0.5; letter-spacing: 0.5px; }
+
+        /* ===================== AI CHAT PANEL ===================== */
+        .ai-fab {
+            position: fixed; bottom: 28px; right: 28px;
+            width: 64px; height: 64px; border-radius: 50%;
+            background: linear-gradient(135deg, #7c3aed, #4f46e5);
+            border: 2px solid rgba(139,92,246,0.6);
+            box-shadow: 0 8px 25px rgba(124,58,237,0.5);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+            z-index: 1000; color: white; font-size: 1.5rem;
         }
 
-        .status-led {
-            width: 10px;
-            height: 10px;
-            background: #10b981;
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 5px #2ecc71;
-            animation: pulse-led 1.5s infinite;
+        .ai-fab:hover { transform: scale(1.12); box-shadow: 0 12px 35px rgba(124,58,237,0.7); }
+        .ai-fab .ai-fab-badge {
+            position: absolute; top: -4px; right: -4px;
+            width: 20px; height: 20px; background: #10b981; border-radius: 50%;
+            font-size: 0.5rem; display: flex; align-items: center; justify-content: center;
+            font-weight: 800; color: white; border: 2px solid #03050a;
         }
-        @keyframes pulse-led {
-            0% { opacity: 0.4; transform: scale(0.8);}
-            100% { opacity: 1; transform: scale(1.2);}
+
+        .ai-panel {
+            position: fixed; bottom: 110px; right: 28px;
+            width: 420px; max-width: calc(100vw - 40px);
+            height: 580px; max-height: calc(100vh - 160px);
+            background: rgba(8, 12, 22, 0.96);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(139,92,246,0.4);
+            border-radius: 2rem;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(139,92,246,0.1);
+            display: flex; flex-direction: column;
+            z-index: 999;
+            transform: scale(0.85) translateY(20px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
         }
-        footer {
-            text-align: center;
-            margin-top: 3rem;
-            font-size: 0.75rem;
-            opacity: 0.5;
-            letter-spacing: 0.5px;
+
+        .ai-panel.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
+
+        .ai-panel-header {
+            display: flex; align-items: center; gap: 12px;
+            padding: 1.2rem 1.5rem; border-bottom: 1px solid rgba(139,92,246,0.2);
+            flex-shrink: 0;
         }
+
+        .ai-avatar {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: linear-gradient(135deg, #7c3aed, #4f46e5);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; flex-shrink: 0;
+            box-shadow: 0 0 12px rgba(124,58,237,0.5);
+        }
+
+        .ai-panel-title { flex: 1; }
+        .ai-panel-title h3 { font-size: 1rem; font-weight: 700; color: #e2d9f3; }
+        .ai-panel-title p { font-size: 0.72rem; color: #8b7cf6; margin-top: 2px; }
+
+        .ai-close-btn { background: none; border: none; color: #6b7280; cursor: pointer; font-size: 1.1rem; transition: color 0.2s; }
+        .ai-close-btn:hover { color: #e2d9f3; }
+
+        .ai-messages {
+            flex: 1; overflow-y: auto; padding: 1rem 1.2rem;
+            display: flex; flex-direction: column; gap: 12px;
+            scrollbar-width: thin; scrollbar-color: rgba(139,92,246,0.3) transparent;
+        }
+
+        .ai-messages::-webkit-scrollbar { width: 4px; }
+        .ai-messages::-webkit-scrollbar-thumb { background: rgba(139,92,246,0.3); border-radius: 4px; }
+
+        .msg { display: flex; gap: 10px; animation: msgSlide 0.3s ease; }
+        @keyframes msgSlide { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+        .msg.user { flex-direction: row-reverse; }
+
+        .msg-bubble {
+            max-width: 80%; padding: 0.75rem 1rem; border-radius: 1.2rem;
+            font-size: 0.875rem; line-height: 1.5; word-break: break-word;
+        }
+
+        .msg.user .msg-bubble { background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; border-bottom-right-radius: 4px; }
+        .msg.ai .msg-bubble { background: rgba(255,255,255,0.06); color: #d1d5f0; border: 1px solid rgba(139,92,246,0.2); border-bottom-left-radius: 4px; }
+
+        .msg-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; flex-shrink: 0; margin-top: 2px; }
+        .msg.ai .msg-avatar { background: linear-gradient(135deg, #7c3aed, #4f46e5); }
+        .msg.user .msg-avatar { background: linear-gradient(135deg, #0f172a, #1e293b); border: 1px solid #3b82f6; }
+
+        .ai-input-area {
+            padding: 1rem 1.2rem; border-top: 1px solid rgba(139,92,246,0.2);
+            display: flex; gap: 10px; align-items: flex-end; flex-shrink: 0;
+        }
+
+        .ai-input {
+            flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(139,92,246,0.3);
+            border-radius: 1.2rem; padding: 0.7rem 1rem; color: #e2d9f3;
+            font-size: 0.875rem; font-family: 'Inter', sans-serif; resize: none;
+            min-height: 42px; max-height: 100px; outline: none; transition: border-color 0.2s;
+        }
+
+        .ai-input:focus { border-color: rgba(139,92,246,0.7); box-shadow: 0 0 0 3px rgba(139,92,246,0.15); }
+        .ai-input::placeholder { color: #6b7280; }
+
+        .ai-send-btn, .ai-mic-btn {
+            width: 40px; height: 40px; border-radius: 50%; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; transition: all 0.2s; flex-shrink: 0;
+        }
+
+        .ai-send-btn { background: linear-gradient(135deg, #7c3aed, #4f46e5); color: white; }
+        .ai-send-btn:hover { transform: scale(1.1); box-shadow: 0 4px 15px rgba(124,58,237,0.5); }
+        .ai-send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .ai-mic-btn { background: rgba(255,255,255,0.07); color: #8b7cf6; border: 1px solid rgba(139,92,246,0.3); }
+        .ai-mic-btn:hover { background: rgba(139,92,246,0.2); color: #a78bfa; }
+        .ai-mic-btn.listening { background: rgba(239,68,68,0.2); color: #f87171; border-color: #ef4444; animation: mic-pulse 1s ease-in-out infinite; }
+
+        .typing-indicator { display: flex; gap: 4px; align-items: center; padding: 4px 0; }
+        .typing-indicator span { width: 6px; height: 6px; border-radius: 50%; background: #8b7cf6; animation: bounce 1.2s infinite; }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce { 0%,60%,100% { transform:translateY(0); } 30% { transform:translateY(-6px); } }
+
+        .ai-match-count { font-size: 0.72rem; color: #8b7cf6; margin-top: 6px; }
+
+        .ai-welcome-msg { text-align: center; padding: 1rem; }
+        .ai-welcome-msg .ai-avatar-big { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #7c3aed, #4f46e5); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 12px; box-shadow: 0 0 20px rgba(124,58,237,0.4); }
+        .ai-welcome-msg h4 { color: #e2d9f3; font-size: 1rem; margin-bottom: 8px; }
+        .ai-welcome-msg p { color: #6b7280; font-size: 0.8rem; line-height: 1.5; }
+
+        .suggestion-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; justify-content: center; }
+        .chip {
+            background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.3);
+            border-radius: 20px; padding: 5px 12px; font-size: 0.75rem; color: #a78bfa;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .chip:hover { background: rgba(139,92,246,0.3); color: white; transform: scale(1.02); }
     </style>
 </head>
 <body>
@@ -353,7 +313,7 @@
     <div class="scanner-header">
         <div class="title-section">
             <h1>
-                <i class="fas fa-shield-haltered"></i> 
+                <i class="fas fa-shield-halved"></i> 
                 Salesforce ORG Scanner
             </h1>
             <div style="margin-top: 10px; font-size: 0.85rem; color: #87b9ff;">🔍 Next‑gen universal deep scan · Matrix-grade entropy</div>
@@ -372,14 +332,21 @@
             <span style="font-weight: 500;">⚡ DEEP SCAN ENGINE</span>
         </div>
         <div class="input-group">
-            <input type="text" id="searchInput" class="search-field" placeholder="Search..." autocomplete="off">
+            <input type="text" id="searchInput" class="search-field" placeholder="Search anything... or use mic 🎤" autocomplete="off">
+            <button id="micBtn" class="mic-btn" onclick="toggleVoiceSearch()" title="Voice Search">
+                <i class="fas fa-microphone" id="micIcon"></i>
+            </button>
             <button id="scanBtn" class="scan-btn" onclick="triggerDeepScan()">
-                <i class="fas fa-skull-crosswalk"></i> Deep Scan Org
+                <i class="fas fa-magnifying-glass"></i> Deep Scan Org
             </button>
         </div>
         <div id="loader" class="loader-matrix">
             <i class="fas fa-cogs"></i> 
             <span>Hacking into the Salesforce Matrix... deep scanning Flows, Apex, Metadata & Records (approx 15-20s)</span>
+        </div>
+        <div id="voiceStatus" style="display:none; margin-top:10px; font-size:0.82rem; color:#f87171; display:flex; align-items:center; gap:8px;">
+            <i class="fas fa-circle" style="font-size:0.5rem; animation:pulse-led 0.8s infinite;"></i>
+            <span>Listening... bolo jo search karna hai</span>
         </div>
     </div>
 
@@ -389,9 +356,116 @@
     </footer>
 </div>
 
+<!-- ========== AI FLOATING BUTTON ========== -->
+<div class="ai-fab" id="aiFab" onclick="toggleAIPanel()" title="Ask AI Assistant">
+    <i class="fas fa-robot"></i>
+    <div class="ai-fab-badge">AI</div>
+</div>
+
+<!-- ========== AI CHAT PANEL ========== -->
+<div class="ai-panel" id="aiPanel">
+    <div class="ai-panel-header">
+        <div class="ai-avatar">🤖</div>
+        <div class="ai-panel-title">
+            <h3>Salesforce AI Assistant</h3>
+            <p>Hindi · English · Hinglish — sab samajhta hun</p>
+        </div>
+        <button class="ai-close-btn" onclick="toggleAIPanel()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <div class="ai-messages" id="aiMessages">
+        <div class="ai-welcome-msg">
+            <div class="ai-avatar-big">🤖</div>
+            <h4>Namaste! Main aapka Salesforce AI Assistant hun</h4>
+            <p>Mujhse koi bhi sawaal pucho apni Salesforce org ke baare mein.<br>Hindi, English, ya Hinglish — sab chalega!</p>
+            <div class="suggestion-chips">
+                <div class="chip" onclick="askSuggestion('Closed-Won picklist value kahan kahan use ho rahi hai?')">Closed-Won kahan use hai?</div>
+                <div class="chip" onclick="askSuggestion('Account object use karne wale Apex classes kaun se hain?')">Account ke Apex classes?</div>
+                <div class="chip" onclick="askSuggestion('Koi hardcoded email address hai kya code mein?')">Hardcoded emails?</div>
+                <div class="chip" onclick="askSuggestion('Which flows are using the Stage field?')">Flows using Stage?</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ai-input-area">
+        <textarea id="aiInput" class="ai-input" placeholder="Hindi ya English mein pucho..." rows="1" 
+            onkeydown="handleAiKeydown(event)" oninput="autoResize(this)"></textarea>
+        <button class="ai-mic-btn" id="aiMicBtn" onclick="toggleAiVoice()" title="Voice input">
+            <i class="fas fa-microphone" id="aiMicIcon"></i>
+        </button>
+        <button class="ai-send-btn" id="aiSendBtn" onclick="sendAiMessage()">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+</div>
+
 <script>
     let activeInstanceUrl = '';
+    let isVoiceListening = false;
+    let aiVoiceListening = false;
+    let recognition = null;
+    let aiRecognition = null;
 
+    // ============================================================
+    // VOICE SEARCH (Main Search Bar)
+    // ============================================================
+    function setupSpeechRecognition() {
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRec) return null;
+        const rec = new SpeechRec();
+        rec.continuous = false;
+        rec.interimResults = false;
+        rec.lang = 'en-IN'; // Indian English + Hindi support
+        return rec;
+    }
+
+    function toggleVoiceSearch() {
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRec) {
+            showToast('⚠️ Voice search Chrome mein kaam karta hai. Please Chrome use karo.', '#f97316');
+            return;
+        }
+
+        if (isVoiceListening) {
+            if (recognition) recognition.stop();
+            return;
+        }
+
+        recognition = setupSpeechRecognition();
+        recognition.onstart = () => {
+            isVoiceListening = true;
+            document.getElementById('micBtn').classList.add('listening');
+            document.getElementById('micIcon').className = 'fas fa-stop';
+            document.getElementById('voiceStatus').style.display = 'flex';
+        };
+
+        recognition.onresult = (e) => {
+            const transcript = e.results[0][0].transcript;
+            document.getElementById('searchInput').value = transcript;
+            showToast(`🎤 Suna: "${transcript}"`, '#10b981');
+            setTimeout(() => triggerDeepScan(), 400);
+        };
+
+        recognition.onend = () => {
+            isVoiceListening = false;
+            document.getElementById('micBtn').classList.remove('listening');
+            document.getElementById('micIcon').className = 'fas fa-microphone';
+            document.getElementById('voiceStatus').style.display = 'none';
+        };
+
+        recognition.onerror = (e) => {
+            showToast('Mic error: ' + e.error, '#ef4444');
+            recognition.onend();
+        };
+
+        recognition.start();
+    }
+
+    // ============================================================
+    // DEEP SCAN
+    // ============================================================
     async function triggerDeepScan() {
         const term = document.getElementById('searchInput').value.trim();
         if (term.length < 2) {
@@ -442,7 +516,6 @@
                 return;
             }
 
-            // Build state-of-the-art results grid
             let headerHtml = `
                 <div class="results-header">
                     <div style="display: flex; align-items: center; gap: 12px;">
@@ -466,13 +539,10 @@
                 if (m.link && activeInstanceUrl) {
                     const url = activeInstanceUrl + m.link;
                     linkMarkup = `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="open-link"><i class="fas fa-external-link-alt"></i> Open in Salesforce</a>`;
-                } else if (m.link === undefined && m.type && (m.type.includes('Record') || m.type.includes('Schema'))) {
-                    // maybe no direct link but we show minimal info
                 } else if (m.link && !activeInstanceUrl) {
                     linkMarkup = `<span class="open-link" style="opacity:0.6; cursor:default;"><i class="fas fa-link"></i> relogin required</span>`;
                 }
                 
-                // Enhanced type icons
                 let icon = '<i class="fas fa-code-branch"></i>';
                 if (typeRaw.includes('Flow')) icon = '<i class="fas fa-water"></i>';
                 else if (typeRaw.includes('Apex')) icon = '<i class="fab fa-salesforce"></i>';
@@ -485,26 +555,18 @@
                 tile.className = 'result-tile';
                 tile.innerHTML = `
                     <div class="tile-content">
-                        <div class="type-badge-modern">
-                            ${icon} ${escapeHtml(typeRaw)}
-                        </div>
+                        <div class="type-badge-modern">${icon} ${escapeHtml(typeRaw)}</div>
                         <div class="match-name">${escapeHtml(nameRaw)}</div>
                         <div class="match-detail">
                             <i class="fas fa-info-circle" style="font-size: 0.7rem;"></i> 
                             ${escapeHtml(detailRaw.length > 180 ? detailRaw.substring(0, 180) + '…' : detailRaw)}
                         </div>
                     </div>
-                    <div>
-                        ${linkMarkup || (m.link ? '' : '')}
-                    </div>
+                    <div>${linkMarkup}</div>
                 `;
                 container.appendChild(tile);
             });
-            
-            // subtle highlight
-            if(matches.some(m => m.type && m.type.includes('Record'))) {
-                // just UX charm
-            }
+
         } catch (err) {
             console.error(err);
             loaderDiv.style.display = 'none';
@@ -513,12 +575,170 @@
                 <div class="empty-state">
                     <i class="fas fa-skull"></i>
                     <h3>⚡ Connection failure</h3>
-                    <p>Backend server not responding. Ensure node backend is running on port 3000.</p>
+                    <p>Backend server not responding.</p>
                     <button onclick="window.location.reload()" style="margin-top: 15px; background:#1e293b; border:none; padding:8px 22px; border-radius:28px; color:white; cursor:pointer;">⟳ retry</button>
                 </div>`;
         }
     }
-    
+
+    // ============================================================
+    // AI CHAT PANEL
+    // ============================================================
+    function toggleAIPanel() {
+        const panel = document.getElementById('aiPanel');
+        panel.classList.toggle('open');
+        if (panel.classList.contains('open')) {
+            document.getElementById('aiInput').focus();
+        }
+    }
+
+    function toggleAiVoice() {
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRec) { showToast('Chrome use karo voice ke liye', '#f97316'); return; }
+
+        if (aiVoiceListening) {
+            if (aiRecognition) aiRecognition.stop();
+            return;
+        }
+
+        aiRecognition = setupSpeechRecognition();
+        aiRecognition.lang = 'hi-IN'; // Hindi primary for AI chat
+
+        aiRecognition.onstart = () => {
+            aiVoiceListening = true;
+            document.getElementById('aiMicBtn').classList.add('listening');
+            document.getElementById('aiMicIcon').className = 'fas fa-stop';
+        };
+
+        aiRecognition.onresult = (e) => {
+            const transcript = e.results[0][0].transcript;
+            document.getElementById('aiInput').value = transcript;
+            autoResize(document.getElementById('aiInput'));
+        };
+
+        aiRecognition.onend = () => {
+            aiVoiceListening = false;
+            document.getElementById('aiMicBtn').classList.remove('listening');
+            document.getElementById('aiMicIcon').className = 'fas fa-microphone';
+        };
+
+        aiRecognition.onerror = (e) => { aiRecognition.onend(); };
+        aiRecognition.start();
+    }
+
+    function handleAiKeydown(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendAiMessage();
+        }
+    }
+
+    function autoResize(el) {
+        el.style.height = 'auto';
+        el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+    }
+
+    function askSuggestion(text) {
+        document.getElementById('aiInput').value = text;
+        sendAiMessage();
+    }
+
+    function addMessage(role, content, matchCount) {
+        const container = document.getElementById('aiMessages');
+        
+        // Remove welcome message if first real message
+        const welcome = container.querySelector('.ai-welcome-msg');
+        if (welcome && role === 'user') welcome.remove();
+
+        const div = document.createElement('div');
+        div.className = `msg ${role}`;
+
+        const avatarIcon = role === 'user' ? '<i class="fas fa-user" style="font-size:0.7rem;"></i>' : '🤖';
+        
+        let extra = '';
+        if (role === 'ai' && matchCount !== undefined) {
+            extra = `<div class="ai-match-count"><i class="fas fa-database"></i> ${matchCount} org records scanned</div>`;
+        }
+
+        div.innerHTML = `
+            <div class="msg-avatar">${avatarIcon}</div>
+            <div>
+                <div class="msg-bubble">${role === 'ai' ? content : escapeHtml(content)}</div>
+                ${extra}
+            </div>
+        `;
+        container.appendChild(div);
+        container.scrollTop = container.scrollHeight;
+        return div;
+    }
+
+    function addTypingIndicator() {
+        const container = document.getElementById('aiMessages');
+        const div = document.createElement('div');
+        div.className = 'msg ai';
+        div.id = 'typingIndicator';
+        div.innerHTML = `
+            <div class="msg-avatar">🤖</div>
+            <div class="msg-bubble" style="padding: 0.6rem 1rem;">
+                <div class="typing-indicator">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        `;
+        container.appendChild(div);
+        container.scrollTop = container.scrollHeight;
+    }
+
+    async function sendAiMessage() {
+        const input = document.getElementById('aiInput');
+        const message = input.value.trim();
+        if (!message) return;
+
+        const sendBtn = document.getElementById('aiSendBtn');
+        sendBtn.disabled = true;
+        input.value = '';
+        autoResize(input);
+
+        addMessage('user', message);
+        addTypingIndicator();
+
+        try {
+            const response = await fetch('/api/ai-chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
+            });
+
+            const data = await response.json();
+
+            const typing = document.getElementById('typingIndicator');
+            if (typing) typing.remove();
+
+            if (data.error) {
+                addMessage('ai', `❌ ${escapeHtml(data.error)}`);
+            } else {
+                // Format the AI answer with markdown-like rendering
+                const formattedAnswer = (data.answer || '')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/`(.*?)`/g, '<code style="background:rgba(139,92,246,0.2);padding:2px 6px;border-radius:4px;font-size:0.8em;">$1</code>')
+                    .replace(/\n/g, '<br>');
+                addMessage('ai', formattedAnswer, data.matchCount);
+            }
+
+        } catch (err) {
+            const typing = document.getElementById('typingIndicator');
+            if (typing) typing.remove();
+            addMessage('ai', '❌ Server se connect nahi ho pa raha. Please try again.');
+        }
+
+        sendBtn.disabled = false;
+        input.focus();
+    }
+
+    // ============================================================
+    // UTILITIES
+    // ============================================================
     function escapeHtml(str) {
         if (!str) return '';
         return str.replace(/[&<>]/g, function(m) {
@@ -526,38 +746,22 @@
             if (m === '<') return '&lt;';
             if (m === '>') return '&gt;';
             return m;
-        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-            return c;
         });
     }
     
     function showToast(msg, color) {
         const toast = document.createElement('div');
         toast.innerText = msg;
-        toast.style.position = 'fixed';
-        toast.style.bottom = '20px';
-        toast.style.left = '20px';
-        toast.style.background = '#111c2d';
-        toast.style.borderLeft = `4px solid ${color || '#3b82f6'}`;
-        toast.style.padding = '12px 24px';
-        toast.style.borderRadius = '40px';
-        toast.style.zIndex = '9999';
-        toast.style.backdropFilter = 'blur(12px)';
-        toast.style.fontWeight = '500';
-        toast.style.boxShadow = '0 4px 15px rgba(0,0,0,0.4)';
+        toast.style.cssText = `position:fixed;bottom:20px;left:20px;background:#111c2d;border-left:4px solid ${color||'#3b82f6'};padding:12px 24px;border-radius:40px;z-index:9999;backdrop-filter:blur(12px);font-weight:500;box-shadow:0 4px 15px rgba(0,0,0,0.4);transition:opacity 0.5s;font-family:'Inter',sans-serif;`;
         document.body.appendChild(toast);
         setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 500); }, 2800);
     }
     
-    // allow pressing Enter key to trigger scan
     document.getElementById('searchInput').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            triggerDeepScan();
-        }
+        if (e.key === 'Enter') { e.preventDefault(); triggerDeepScan(); }
     });
     
-   // Check Authentication on Page Load
+    // Check Authentication on Page Load
     window.addEventListener('DOMContentLoaded', async () => {
         const welcomeDiv = document.getElementById('resultsArea');
         const scanCard = document.querySelector('.scan-card');
@@ -568,7 +772,6 @@
             const authData = await response.json();
 
             if (authData.loggedIn) {
-                // User is logged in! Show the scanner
                 scanCard.style.display = 'block';
                 activeInstanceUrl = authData.instanceUrl;
                 
@@ -583,11 +786,10 @@
                     <div class="empty-state" style="border-color: #2c3e66;">
                         <i class="fas fa-radar" style="font-size: 3rem; color:#3b82f6;"></i>
                         <h3 style="margin: 15px 0 8px;">🚀 Ready for deep reconnaissance</h3>
-                        <p>Enter any text, ID, variable, Flow outcome message, or record name to begin the scan.</p>
+                        <p>Enter any text, or use <strong style="color:#a78bfa;">🤖 AI Assistant</strong> (bottom-right) to ask in Hindi/English!</p>
                     </div>
                 `;
             } else {
-                // User is NOT logged in! Hide scanner, show login button
                 scanCard.style.display = 'none';
                 badgeConn.innerHTML = `<span style="color: #ff4d4d;"><i class="fas fa-times-circle"></i> Not Connected</span>`;
                 
