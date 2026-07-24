@@ -370,9 +370,14 @@
             <h3>Salesforce AI Assistant</h3>
             <p>Ask in Hindi · English · or any language</p>
         </div>
-        <button class="ai-close-btn" onclick="toggleAIPanel()">
-            <i class="fas fa-times"></i>
-        </button>
+        <div style="display: flex; gap: 8px;">
+            <button class="ai-close-btn" onclick="downloadChat()" title="Download Chat History">
+                <i class="fas fa-download"></i>
+            </button>
+            <button class="ai-close-btn" onclick="toggleAIPanel()" title="Close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
     </div>
 
     <div class="ai-messages" id="aiMessages">
@@ -636,6 +641,38 @@
     function autoResize(el) {
         el.style.height = 'auto';
         el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+    }
+
+    // ============================================================
+    // DOWNLOAD CHAT HISTORY
+    // ============================================================
+    function downloadChat() {
+        const messages = document.querySelectorAll('#aiMessages .msg-bubble');
+        if (messages.length === 0) {
+            showToast('No chat history to download', '#f97316');
+            return;
+        }
+        
+        let chatText = "Salesforce Org Intelligence Assistant - Chat History\n=======================================================\n\n";
+        messages.forEach(msg => {
+            const isUser = msg.parentElement.parentElement.classList.contains('user');
+            const sender = isUser ? "You" : "AI Assistant";
+            const text = msg.innerText.trim();
+            chatText += `[${sender}]:\n${text}\n\n-------------------------------------------------------\n\n`;
+        });
+        
+        const blob = new Blob([chatText], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        const dateStr = new Date().toISOString().slice(0,10);
+        a.download = `Salesforce_AI_Chat_${dateStr}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        showToast('📥 Chat history downloaded!', '#10b981');
     }
 
     function askSuggestion(text) {
