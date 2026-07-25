@@ -62,8 +62,8 @@ function getOAuth2(req) {
     }
     
     return new jsforce.OAuth2({
-        clientId: process.env.CLIENT_ID || Buffer.from('M01WRzlkQUV1eDJ2MXNMdVY3QWl6RExObVlJZDdKUEhXQ0o0MXBGUTlMbm5xajRSZmFPSW1iRUp1ekJfVnNlczdFWGcyNV9Jem9vdVY2NTJmNEc2Mw==', 'base64').toString('utf8'),
-        clientSecret: process.env.CLIENT_SECRET || Buffer.from('RjI3NDM0MEYwMEU0MDM1M0Y3OERGRUM3MzdGQkRBRDUzRDU0OUQ3MDc1RTg4RjdEQzhBMTgwMUEyQzZGNDQwRg==', 'base64').toString('utf8'),
+        clientId: process.env.CLIENT_ID || Buffer.from('M01WRzlkQUV1eDJ2MXNMdVY3QWl6RExObVlndEVtRXNmQ3Y1UU9WTldtbTdRa2F6MHlNdVRnSG1mS3JGbC53WHZsbE00MkZMTl9vZUJyMkpib2ZMMA==', 'base64').toString('utf8'),
+        clientSecret: process.env.CLIENT_SECRET || Buffer.from('MDUzQTlGMzcwMzQ1RENEMzVBNzY1M0E5QjcwN0REOTAzRTJGMDBCMkEyNTFEQ0JDRTIwQjFFQzc1OUZDNkM5RQ==', 'base64').toString('utf8'),
         redirectUri: `${baseUrl}/auth/callback`,
         loginUrl: loginUrl
     });
@@ -77,6 +77,46 @@ app.get('/auth/login', (req, res) => {
 
 // 2. Callback Route
 app.get('/auth/callback', async (req, res) => {
+    // Handle OAuth errors from Salesforce
+    if (req.query.error) {
+        const errorDesc = decodeURIComponent(req.query.error_description || req.query.error || 'Unknown error');
+        const isBlockedError = errorDesc.toLowerCase().includes('cross-org') || errorDesc.toLowerCase().includes('blocked');
+        const isInvalidClient = req.query.error === 'invalid_client_id';
+        
+        let helpMessage = '';
+        if (isBlockedError) {
+            helpMessage = `
+                <h3>⚠️ Your org requires admin approval</h3>
+                <p>Ask your Salesforce Admin to do one of these:</p>
+                <ol>
+                    <li>Go to <b>Setup → Connected Apps OAuth Usage</b></li>
+                    <li>Find "Salesforce Dev Scanner" and click <b>Install</b></li>
+                    <li>Or: Go to <b>Setup → Profiles</b> → Your Profile → <b>System Permissions</b> → Enable <b>"Approve Uninstalled Connected Apps"</b></li>
+                </ol>`;
+        } else if (isInvalidClient) {
+            helpMessage = `
+                <h3>⚠️ Domain may need adjustment</h3>
+                <p>Please enter your exact Salesforce My Domain URL (found in your browser address bar when you open Salesforce).</p>
+                <p>Example: <code>mycompany.my.salesforce.com</code></p>`;
+        }
+        
+        return res.send(`
+            <html><head><style>
+                body { font-family: 'Segoe UI', sans-serif; background: #0a0c12; color: #eef5ff; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+                .card { background: rgba(12,18,28,0.9); border: 1px solid #ff4d4d80; border-radius: 1.5rem; padding: 2.5rem; max-width: 550px; text-align: center; }
+                h2 { color: #ff6b6b; } a { color: #60a5fa; } code { background: #1e293b; padding: 2px 8px; border-radius: 4px; color: #fbbf24; }
+                .btn { display: inline-block; margin-top: 20px; padding: 12px 28px; background: #0176d3; color: white; text-decoration: none; border-radius: 30px; font-weight: bold; }
+            </style></head><body>
+            <div class="card">
+                <h2>🔒 Connection Blocked</h2>
+                <p style="color: #94a3b8;">${errorDesc}</p>
+                ${helpMessage}
+                <a href="/" class="btn">← Back to Scanner</a>
+            </div>
+            </body></html>
+        `);
+    }
+    
     const oauth2 = getOAuth2(req);
     const conn = new jsforce.Connection({ oauth2 : oauth2 });
     try {
@@ -85,7 +125,19 @@ app.get('/auth/callback', async (req, res) => {
         req.session.instanceUrl = conn.instanceUrl;
         res.redirect('/');
     } catch (err) {
-        res.send('Login Failed: ' + err.message);
+        res.send(`
+            <html><head><style>
+                body { font-family: 'Segoe UI', sans-serif; background: #0a0c12; color: #eef5ff; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+                .card { background: rgba(12,18,28,0.9); border: 1px solid #ff4d4d80; border-radius: 1.5rem; padding: 2.5rem; max-width: 500px; text-align: center; }
+                h2 { color: #ff6b6b; } .btn { display: inline-block; margin-top: 20px; padding: 12px 28px; background: #0176d3; color: white; text-decoration: none; border-radius: 30px; font-weight: bold; }
+            </style></head><body>
+            <div class="card">
+                <h2>⚠️ Login Failed</h2>
+                <p style="color: #94a3b8;">${err.message}</p>
+                <a href="/" class="btn">← Try Again</a>
+            </div>
+            </body></html>
+        `);
     }
 });
 
