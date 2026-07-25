@@ -32,26 +32,19 @@ function getOAuth2(req) {
     // Support custom My Domain login
     let customDomain = req.query.domain || req.session.customDomain || '';
     if (customDomain) {
-        // Auto-convert any Salesforce URL format to correct My Domain
         customDomain = customDomain.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
-        
-        // Convert .lightning.force.com to .my.salesforce.com
-        // e.g. medusabeverages--uat.sandbox.lightning.force.com → medusabeverages--uat.sandbox.my.salesforce.com
-        if (customDomain.includes('.lightning.force.com')) {
-            customDomain = customDomain.replace('.lightning.force.com', '.my.salesforce.com');
-        }
-        // Convert .develop.my.salesforce.com to .my.salesforce.com (Dev Edition)
-        if (customDomain.includes('.develop.my.salesforce.com')) {
-            customDomain = customDomain.replace('.develop.my.salesforce.com', '.my.salesforce.com');
-        }
-        // Convert .visual.force.com to .my.salesforce.com
-        if (customDomain.includes('.visual.force.com')) {
-            customDomain = customDomain.replace('.visual.force.com', '.my.salesforce.com');
-        }
-        
+        if (customDomain.includes('.lightning.force.com')) customDomain = customDomain.replace('.lightning.force.com', '.my.salesforce.com');
+        if (customDomain.includes('.develop.my.salesforce.com')) customDomain = customDomain.replace('.develop.my.salesforce.com', '.my.salesforce.com');
+        if (customDomain.includes('.visual.force.com')) customDomain = customDomain.replace('.visual.force.com', '.my.salesforce.com');
         req.session.customDomain = customDomain;
     }
     
+    // Support Custom Connected App (BYOA)
+    const customClientId = req.query.clientId || req.session.customClientId || '';
+    const customClientSecret = req.query.clientSecret || req.session.customClientSecret || '';
+    if (customClientId) req.session.customClientId = customClientId;
+    if (customClientSecret) req.session.customClientSecret = customClientSecret;
+
     let loginUrl;
     if (customDomain) {
         loginUrl = `https://${customDomain}`;
@@ -61,9 +54,12 @@ function getOAuth2(req) {
         loginUrl = 'https://login.salesforce.com';
     }
     
+    const finalClientId = customClientId || process.env.CLIENT_ID || Buffer.from('M01WRzlkQUV1eDJ2MXNMdVY3QWl6RExObVlndEVtRXNmQ3Y1UU9WTldtbTdRa2F6MHlNdVRnSG1mS3JGbC53WHZsbE00MkZMTl9vZUJyMkpib2ZMMA==', 'base64').toString('utf8');
+    const finalClientSecret = customClientSecret || process.env.CLIENT_SECRET || Buffer.from('MDUzQTlGMzcwMzQ1RENEMzVBNzY1M0E5QjcwN0REOTAzRTJGMDBCMkEyNTFEQ0JDRTIwQjFFQzc1OUZDNkM5RQ==', 'base64').toString('utf8');
+
     return new jsforce.OAuth2({
-        clientId: process.env.CLIENT_ID || Buffer.from('M01WRzlkQUV1eDJ2MXNMdVY3QWl6RExObVlndEVtRXNmQ3Y1UU9WTldtbTdRa2F6MHlNdVRnSG1mS3JGbC53WHZsbE00MkZMTl9vZUJyMkpib2ZMMA==', 'base64').toString('utf8'),
-        clientSecret: process.env.CLIENT_SECRET || Buffer.from('MDUzQTlGMzcwMzQ1RENEMzVBNzY1M0E5QjcwN0REOTAzRTJGMDBCMkEyNTFEQ0JDRTIwQjFFQzc1OUZDNkM5RQ==', 'base64').toString('utf8'),
+        clientId: finalClientId,
+        clientSecret: finalClientSecret,
         redirectUri: `${baseUrl}/auth/callback`,
         loginUrl: loginUrl
     });
