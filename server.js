@@ -305,7 +305,7 @@ app.post('/api/scan', async (req, res) => {
 // ==========================================
 app.post('/api/ai-chat', async (req, res) => {
     if (!req.session.accessToken) {
-        return res.status(401).json({ error: 'Pehle Salesforce se login karo.' });
+        return res.status(401).json({ error: 'Please connect your Salesforce Org first to use the AI Assistant.' });
     }
 
     // Base64 encoded key to bypass GitHub secret scanner
