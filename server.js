@@ -81,13 +81,21 @@ app.get('/auth/callback', async (req, res) => {
         let helpMessage = '';
         if (isBlockedError) {
             helpMessage = `
-                <h3>⚠️ Your org requires admin approval</h3>
-                <p>Ask your Salesforce Admin to do one of these:</p>
-                <ol>
-                    <li>Go to <b>Setup → Connected Apps OAuth Usage</b></li>
-                    <li>Find "Salesforce Dev Scanner" and click <b>Install</b></li>
-                    <li>Or: Go to <b>Setup → Profiles</b> → Your Profile → <b>System Permissions</b> → Enable <b>"Approve Uninstalled Connected Apps"</b></li>
-                </ol>`;
+                <h3>⚠️ Cross-Org OAuth is Blocked by Salesforce</h3>
+                <p>Salesforce no longer allows external apps to connect directly without a local Connected App.</p>
+                <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; padding: 15px; border-radius: 8px; text-align: left; margin-top: 15px;">
+                    <h4 style="margin-top: 0; color: #fbbf24;"><i class="fas fa-question-circle"></i> Fix: Create your own Connected App</h4>
+                    <ol style="color: #94a3b8; font-size: 0.85rem; padding-left: 20px;">
+                        <li style="margin-bottom: 5px;">Go to Salesforce <b>Setup → App Manager</b>.</li>
+                        <li style="margin-bottom: 5px;">Click <b>New Connected App</b>.</li>
+                        <li style="margin-bottom: 5px;">Name: <code>Dev Scanner</code>, Email: your email.</li>
+                        <li style="margin-bottom: 5px;">Check <b>Enable OAuth Settings</b>.</li>
+                        <li style="margin-bottom: 5px;">Set Callback URL: <br><code style="background: #000; padding: 2px; color: #38bdf8;">https://salesforce-dev-scanner-v2.onrender.com/auth/callback</code></li>
+                        <li style="margin-bottom: 5px;">Select Scopes: <b>Manage user data via APIs (api)</b> and <b>Perform requests at any time (refresh_token)</b>.</li>
+                        <li style="margin-bottom: 5px; color: #ff6b6b;">⚠️ Ensure <b>Require Proof Key for Code Exchange (PKCE)</b> is <b>UNTICKED</b>.</li>
+                        <li>Save, click <b>Manage Consumer Details</b>, copy ID & Secret, and use the Advanced Login options!</li>
+                    </ol>
+                </div>`;
         } else if (isInvalidClient) {
             helpMessage = `
                 <h3>⚠️ Domain may need adjustment</h3>
