@@ -34,7 +34,6 @@ function getOAuth2(req) {
     if (customDomain) {
         customDomain = customDomain.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
         if (customDomain.includes('.lightning.force.com')) customDomain = customDomain.replace('.lightning.force.com', '.my.salesforce.com');
-        if (customDomain.includes('.develop.my.salesforce.com')) customDomain = customDomain.replace('.develop.my.salesforce.com', '.my.salesforce.com');
         if (customDomain.includes('.visual.force.com')) customDomain = customDomain.replace('.visual.force.com', '.my.salesforce.com');
         req.session.customDomain = customDomain;
     }
