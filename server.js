@@ -82,18 +82,18 @@ app.get('/auth/callback', async (req, res) => {
         if (isBlockedError) {
             helpMessage = `
                 <h3>⚠️ Cross-Org OAuth is Blocked by Salesforce</h3>
-                <p>Salesforce no longer allows external apps to connect directly without a local Connected App.</p>
+                <p>Salesforce no longer allows external apps to connect directly without a local app.</p>
                 <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; padding: 15px; border-radius: 8px; text-align: left; margin-top: 15px;">
-                    <h4 style="margin-top: 0; color: #fbbf24;"><i class="fas fa-question-circle"></i> Fix: Create your own Connected App</h4>
+                    <h4 style="margin-top: 0; color: #fbbf24;"><i class="fas fa-question-circle"></i> Fix: Create your own External Client App</h4>
                     <ol style="color: #94a3b8; font-size: 0.85rem; padding-left: 20px;">
-                        <li style="margin-bottom: 5px;">Go to Salesforce <b>Setup → App Manager</b>.</li>
-                        <li style="margin-bottom: 5px;">Click <b>New Connected App</b>.</li>
-                        <li style="margin-bottom: 5px;">Name: <code>Dev Scanner</code>, Email: your email.</li>
-                        <li style="margin-bottom: 5px;">Check <b>Enable OAuth Settings</b>.</li>
+                        <li style="margin-bottom: 5px;">Go to Salesforce Setup → <b>External Client App Manager</b>.</li>
+                        <li style="margin-bottom: 5px;">Click <b>New External Client App</b>. Name it <code>Dev Scanner</code> and Save.</li>
+                        <li style="margin-bottom: 5px;">Go to the <b>OAuth Settings</b> tab and check <b>Enable OAuth</b>.</li>
                         <li style="margin-bottom: 5px;">Set Callback URL: <br><code style="background: #000; padding: 2px; color: #38bdf8;">https://salesforce-dev-scanner-v2.onrender.com/auth/callback</code></li>
                         <li style="margin-bottom: 5px;">Select Scopes: <b>Manage user data via APIs (api)</b> and <b>Perform requests at any time (refresh_token)</b>.</li>
                         <li style="margin-bottom: 5px; color: #ff6b6b;">⚠️ Ensure <b>Require Proof Key for Code Exchange (PKCE)</b> is <b>UNTICKED</b>.</li>
-                        <li>Save, click <b>Manage Consumer Details</b>, copy ID & Secret, and use the Advanced Login options!</li>
+                        <li style="margin-bottom: 5px;">Save. Go to <b>Policies</b> tab to ensure it's Deployed.</li>
+                        <li>Go back to <b>OAuth Settings</b> and click <b>Manage Consumer Details</b> to copy your ID and Secret!</li>
                     </ol>
                 </div>`;
         } else if (isInvalidClient) {
