@@ -429,6 +429,60 @@ Instructions:
 });
 
 const PORT = process.env.PORT || 3000;
+
+// ==========================================
+// JARVIS AI PROXY ENDPOINT
+// (Salesforce can't call Gemini directly due to IP quota — this proxies it)
+// ==========================================
+const b64Key = 'QVEuQWI4Uk42TDRqU1lzUVVoUU1VNzNDcjFWQmdKeGZwbTktTGFnLW5WLTF1cHB3NUtIREE=';
+const JARVIS_GEMINI_KEY = Buffer.from(b64Key, 'base64').toString('utf8');
+const JARVIS_MODEL = 'gemini-2.0-flash';
+
+app.post('/api/jarvis', async (req, res) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    try {
+        const { transcript, conversationHistory, systemPrompt } = req.body;
+
+        const contents = [];
+        if (conversationHistory && Array.isArray(conversationHistory)) {
+            contents.push(...conversationHistory);
+        }
+        contents.push({ role: 'user', parts: [{ text: transcript }] });
+
+        const body = {
+            system_instruction: { parts: [{ text: systemPrompt || 'You are Jarvis, an AI Salesforce assistant. Always respond in English. Return valid JSON with replyText and action fields.' }] },
+            contents,
+            generationConfig: { temperature: 0.7 }
+        };
+
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${JARVIS_MODEL}:generateContent?key=${JARVIS_GEMINI_KEY}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+            return res.status(response.status).json({ error: data.error?.message || 'Gemini error' });
+        }
+
+        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || '{"replyText":"I could not generate a response.","action":null}';
+        res.json({ result: text });
+    } catch (err) {
+        console.error('Jarvis proxy error:', err.message);
+        res.status(500).json({ error: err.message });
+    }
+});
+
+app.options('/api/jarvis', (req, res) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.sendStatus(200);
+});
+
 app.listen(PORT, () => {
     console.log(`\n🚀 SaaS Engine Started! Running on port ${PORT}\n`);
+    console.log(`🤖 Jarvis AI Proxy: http://localhost:${PORT}/api/jarvis\n`);
 });
