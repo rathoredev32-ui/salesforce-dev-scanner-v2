@@ -326,15 +326,19 @@ app.post('/api/ai-chat', async (req, res) => {
 To answer this, you need to query the Salesforce org. Generate the exact SOQL and/or Tooling API queries needed.
 Rules:
 - Generate ONLY a valid JSON object, nothing else. No markdown, no explanation.
-- Use "soql" array for data (e.g., Accounts, Opportunities, Custom Objects). Use aggregate queries if asking for counts/sums.
+- Use "soql" array for data (e.g., Accounts, Opportunities, Report, Dashboard, Profile, User). 
+  * IMPORTANT: 'Report' and 'Dashboard' objects MUST be in "soql", NEVER in "tooling".
+  * Use aggregate queries if asking for counts/sums.
 - Use "tooling" array for metadata (e.g., ValidationRule, CustomField, ApexClass, WorkflowRule).
 - Queries MUST be read-only (SELECT).
+- If querying 'EntityDefinition' or 'FieldDefinition', you MUST include 'LIMIT 50' at the end of the query.
+- Always add 'LIMIT 50' to queries that might return many records, unless you are using aggregate functions like COUNT().
 - If no query is needed, return empty arrays.
 
 Example format:
 {
-  "soql": ["SELECT COUNT(Id) FROM Opportunity WHERE IsWon = true", "SELECT Name, Amount FROM Opportunity ORDER BY Amount DESC LIMIT 5"],
-  "tooling": ["SELECT DeveloperName FROM ValidationRule WHERE Active=true"]
+  "soql": ["SELECT COUNT(Id) FROM Opportunity WHERE IsWon = true", "SELECT Name FROM Report LIMIT 50"],
+  "tooling": ["SELECT DeveloperName FROM ValidationRule WHERE Active=true LIMIT 50"]
 }`;
 
         let aiResponse = await callGemini(extractPrompt, GEMINI_API_KEY);
