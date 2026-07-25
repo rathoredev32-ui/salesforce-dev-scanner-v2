@@ -884,6 +884,12 @@
         const clientId = document.getElementById('clientIdInput') ? document.getElementById('clientIdInput').value.trim() : '';
         const clientSecret = document.getElementById('clientSecretInput') ? document.getElementById('clientSecretInput').value.trim() : '';
         
+        // Foolproof validation: User accidentally pasted Client ID in Domain field
+        if (domain.startsWith('3MVG')) {
+            alert("Oops! It looks like you pasted your Client ID into the 'Domain' field. Please leave the Domain field BLANK and paste the Client ID in the Advanced Settings section below.");
+            return;
+        }
+
         let url = '/auth/login?env=' + env;
         if (domain) {
             const cleanDomain = domain.replace(/^https?:\/\//, '').replace(/\/+$/, '');
