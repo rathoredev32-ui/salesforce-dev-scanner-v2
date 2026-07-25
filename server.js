@@ -326,8 +326,9 @@ app.post('/api/ai-chat', async (req, res) => {
 To answer this, you need to query the Salesforce org. Generate the exact SOQL and/or Tooling API queries needed.
 Rules:
 - Generate ONLY a valid JSON object, nothing else. No markdown, no explanation.
-- Use "soql" array for data (e.g., Accounts, Opportunities, Report, Dashboard, Profile, User). 
+- Use "soql" array for data (e.g., Accounts, Opportunities, Report, Dashboard, Profile, User, FlowDefinitionView). 
   * IMPORTANT: 'Report' and 'Dashboard' objects MUST be in "soql", NEVER in "tooling".
+  * IMPORTANT: To query flows, ALWAYS use 'FlowDefinitionView' (columns: ApiName, Label, IsActive). NEVER query the 'Flow' object directly.
   * Use aggregate queries if asking for counts/sums.
 - Use "tooling" array for metadata (e.g., ValidationRule, CustomField, ApexClass, WorkflowRule).
 - Queries MUST be read-only (SELECT).
@@ -337,7 +338,7 @@ Rules:
 
 Example format:
 {
-  "soql": ["SELECT COUNT(Id) FROM Opportunity WHERE IsWon = true", "SELECT Name FROM Report LIMIT 50"],
+  "soql": ["SELECT COUNT(Id) FROM Opportunity WHERE IsWon = true", "SELECT ApiName FROM FlowDefinitionView WHERE IsActive=true LIMIT 50"],
   "tooling": ["SELECT DeveloperName FROM ValidationRule WHERE Active=true LIMIT 50"]
 }`;
 
