@@ -30,12 +30,30 @@ function getOAuth2(req) {
     req.session.loginEnv = env;
     
     // Support custom My Domain login
-    const customDomain = req.query.domain || req.session.customDomain || '';
-    if (customDomain) req.session.customDomain = customDomain;
+    let customDomain = req.query.domain || req.session.customDomain || '';
+    if (customDomain) {
+        // Auto-convert any Salesforce URL format to correct My Domain
+        customDomain = customDomain.replace(/^https?:\/\//, '').replace(/\/.*$/, '');
+        
+        // Convert .lightning.force.com to .my.salesforce.com
+        // e.g. medusabeverages--uat.sandbox.lightning.force.com → medusabeverages--uat.sandbox.my.salesforce.com
+        if (customDomain.includes('.lightning.force.com')) {
+            customDomain = customDomain.replace('.lightning.force.com', '.my.salesforce.com');
+        }
+        // Convert .develop.my.salesforce.com to .my.salesforce.com (Dev Edition)
+        if (customDomain.includes('.develop.my.salesforce.com')) {
+            customDomain = customDomain.replace('.develop.my.salesforce.com', '.my.salesforce.com');
+        }
+        // Convert .visual.force.com to .my.salesforce.com
+        if (customDomain.includes('.visual.force.com')) {
+            customDomain = customDomain.replace('.visual.force.com', '.my.salesforce.com');
+        }
+        
+        req.session.customDomain = customDomain;
+    }
     
     let loginUrl;
     if (customDomain) {
-        // User provided their My Domain (e.g. mycompany.my.salesforce.com)
         loginUrl = `https://${customDomain}`;
     } else if (env === 'sandbox') {
         loginUrl = 'https://test.salesforce.com';
