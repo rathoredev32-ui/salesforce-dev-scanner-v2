@@ -857,12 +857,32 @@
                         <div style="margin-bottom: 20px; text-align: left; max-width: 320px; margin-left: auto; margin-right: auto;">
                             <a href="javascript:void(0)" onclick="document.getElementById('advancedSettings').style.display = 'block'; this.style.display='none';" style="color: #60a5fa; font-size: 0.85rem; text-decoration: underline;">Advanced: Use Custom Connected App (If blocked)</a>
                             <div id="advancedSettings" style="display: none; margin-top: 10px; padding: 15px; border: 1px solid #3b82f6; border-radius: 8px; background: rgba(59, 130, 246, 0.1);">
+                                
+                                <div style="margin-bottom: 15px; background: #0f172a; padding: 10px; border-radius: 6px; border: 1px solid #1e293b;">
+                                    <a href="javascript:void(0)" onclick="const help = document.getElementById('setupHelp'); help.style.display = help.style.display === 'none' ? 'block' : 'none';" style="color: #fbbf24; font-size: 0.8rem; font-weight: bold; text-decoration: none; display: flex; align-items: center; justify-content: space-between;">
+                                        <span><i class="fas fa-question-circle"></i> How to get Client ID & Secret?</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </a>
+                                    <div id="setupHelp" style="display: none; margin-top: 10px; color: #94a3b8; font-size: 0.75rem; line-height: 1.4;">
+                                        <ol style="padding-left: 15px; margin: 0;">
+                                            <li style="margin-bottom: 5px;">Go to Salesforce <b>Setup → App Manager</b>.</li>
+                                            <li style="margin-bottom: 5px;">Click <b>New Connected App</b>.</li>
+                                            <li style="margin-bottom: 5px;">Name: <code>Dev Scanner</code>, Email: your email.</li>
+                                            <li style="margin-bottom: 5px;">Check <b>Enable OAuth Settings</b>.</li>
+                                            <li style="margin-bottom: 5px;">Set Callback URL: <br><code style="color: #38bdf8; background: #000; padding: 2px;">https://salesforce-dev-scanner-v2.onrender.com/auth/callback</code></li>
+                                            <li style="margin-bottom: 5px;">Select Scopes: <b>Manage user data via APIs (api)</b> and <b>Perform requests at any time (refresh_token)</b>.</li>
+                                            <li style="margin-bottom: 5px; color: #ff6b6b;">⚠️ Ensure <b>Require Proof Key for Code Exchange (PKCE)</b> is <b>UNTICKED</b> (empty box).</li>
+                                            <li>Save. Click <b>Manage Consumer Details</b> to copy your ID and Secret.</li>
+                                        </ol>
+                                        <p style="margin-top: 5px; color: #fbbf24; font-weight: bold;">Note: Wait 5-10 mins after saving before logging in!</p>
+                                    </div>
+                                </div>
+
                                 <label style="color: #eef5ff; font-size: 0.85rem; font-weight: bold; display: block; margin-bottom: 5px;">Client ID (Consumer Key):</label>
                                 <input type="text" id="clientIdInput" placeholder="Enter Client ID" style="width: 100%; padding: 8px; border-radius: 4px; background: #0b1018; color: #fff; border: 1px solid #3b82f6; margin-bottom: 10px; font-size: 0.85rem; box-sizing: border-box;">
                                 
                                 <label style="color: #eef5ff; font-size: 0.85rem; font-weight: bold; display: block; margin-bottom: 5px;">Client Secret (Consumer Secret):</label>
                                 <input type="password" id="clientSecretInput" placeholder="Enter Client Secret" style="width: 100%; padding: 8px; border-radius: 4px; background: #0b1018; color: #fff; border: 1px solid #3b82f6; font-size: 0.85rem; box-sizing: border-box;">
-                                <p style="color: #94a3b8; font-size: 0.75rem; margin-top: 10px;"><b>Instructions:</b> Create a Connected App in your org. <br>Callback URL: <code>https://salesforce-dev-scanner-v2.onrender.com/auth/callback</code><br><span style="color: #ff6b6b;">⚠️ IMPORTANT: Do NOT check "Require Proof Key for Code Exchange (PKCE)"</span></p>
                             </div>
                         </div>
 
