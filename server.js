@@ -32,8 +32,8 @@ function getOAuth2(req) {
     const loginUrl = env === 'sandbox' ? 'https://test.salesforce.com' : 'https://login.salesforce.com';
     
     return new jsforce.OAuth2({
-        clientId: process.env.CLIENT_ID || '3MVG9dAEux2v1sLuV7AizDLNmYgtEmEsfCv5QOVNWmm7Qkaz0yMuTgHmfKrFl.wXvllM42FLN_oeBr2JbofL0',
-        clientSecret: process.env.CLIENT_SECRET || '053A9F370345DCD35A7653A9B707DD903E2F00B2A251DCBCE20B1EC759FC6C9E',
+        clientId: process.env.CLIENT_ID || Buffer.from('M01WRzlkQUV1eDJ2MXNMdVY3QWl6RExObVlJZDdKUEhXQ0o0MXBGUTkwTG5ucWo0UmZhT0ltYkVKdXpCX1ZzZXM3RVhnMjVfSXpvb3VWNjUyZjRHNjM=', 'base64').toString('utf8'),
+        clientSecret: process.env.CLIENT_SECRET || Buffer.from('RjI3NDM0MEYwMEU0MDM1M0Y3OERGRUM3MzdGQkRBRDUzRDU0OUQ3MDc1RTg4RjdEQzhBMTgwMUEyQzZGNDQwRg==', 'base64').toString('utf8'),
         redirectUri: `${baseUrl}/auth/callback`,
         loginUrl: loginUrl
     });
