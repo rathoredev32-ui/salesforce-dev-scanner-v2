@@ -840,10 +840,10 @@
                             <label style="color: #eef5ff; font-weight: bold; margin-right: 10px;">Your Salesforce Domain:</label>
                             <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
                                 <span style="color: #64748b;">https://</span>
-                                <input type="text" id="domainInput" placeholder="mycompany.my.salesforce.com" autocomplete="off"
+                                <input type="text" id="sfDomainHost_x99" name="sfDomainHost_x99" placeholder="mycompany.my.salesforce.com" autocomplete="new-password"
                                     style="padding: 10px 14px; border-radius: 8px; background: #0b1018; color: #fff; border: 1px solid #3b82f6; width: 320px; font-size: 0.95rem; font-family: 'Inter', monospace;">
                             </div>
-                            <script>document.getElementById('domainInput').value = '';</script>
+                            <script>document.getElementById('sfDomainHost_x99').value = '';</script>
                             <p style="color: #64748b; font-size: 0.75rem; margin-top: 6px;">Find this in your browser URL when you open Salesforce (e.g. mycompany.my.salesforce.com)</p>
                         </div>
 
@@ -896,7 +896,7 @@
                 
                 // Defeat aggressive browser autofill by explicitly clearing the field
                 setTimeout(() => {
-                    const dInput = document.getElementById('domainInput');
+                    const dInput = document.getElementById('sfDomainHost_x99');
                     if (dInput) dInput.value = '';
                 }, 50);
             }
@@ -906,7 +906,7 @@
     });
 
     function connectOrg() {
-        const domain = document.getElementById('domainInput') ? document.getElementById('domainInput').value.trim() : '';
+        const domain = document.getElementById('sfDomainHost_x99') ? document.getElementById('sfDomainHost_x99').value.trim() : '';
         const env = document.getElementById('envSelect') ? document.getElementById('envSelect').value : 'production';
         const clientId = document.getElementById('clientIdInput') ? document.getElementById('clientIdInput').value.trim() : '';
         const clientSecret = document.getElementById('clientSecretInput') ? document.getElementById('clientSecretInput').value.trim() : '';
