@@ -29,7 +29,19 @@ function getOAuth2(req) {
     const env = req.query.env || req.session.loginEnv || 'production';
     req.session.loginEnv = env;
     
-    const loginUrl = env === 'sandbox' ? 'https://test.salesforce.com' : 'https://login.salesforce.com';
+    // Support custom My Domain login
+    const customDomain = req.query.domain || req.session.customDomain || '';
+    if (customDomain) req.session.customDomain = customDomain;
+    
+    let loginUrl;
+    if (customDomain) {
+        // User provided their My Domain (e.g. mycompany.my.salesforce.com)
+        loginUrl = `https://${customDomain}`;
+    } else if (env === 'sandbox') {
+        loginUrl = 'https://test.salesforce.com';
+    } else {
+        loginUrl = 'https://login.salesforce.com';
+    }
     
     return new jsforce.OAuth2({
         clientId: process.env.CLIENT_ID || Buffer.from('M01WRzlkQUV1eDJ2MXNMdVY3QWl6RExObVlJZDdKUEhXQ0o0MXBGUTlMbm5xajRSZmFPSW1iRUp1ekJfVnNlczdFWGcyNV9Jem9vdVY2NTJmNEc2Mw==', 'base64').toString('utf8'),
