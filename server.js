@@ -320,72 +320,93 @@ app.post('/api/ai-chat', async (req, res) => {
     });
 
     try {
-        // Step 1: Gemini se search term extract karo
-        const extractPrompt = `You are a Salesforce metadata assistant. A user asked: "${userMessage}"
+        // Step 1: Gemini decides what to query
+        const extractPrompt = `You are an expert Salesforce Data & Metadata Analyst. A user asked: "${userMessage}"
         
-Extract the exact search term(s) to search in a Salesforce org. 
+To answer this, you need to query the Salesforce org. Generate the exact SOQL and/or Tooling API queries needed.
 Rules:
-- Return ONLY the search term(s), nothing else
-- If multiple terms, return them comma-separated
-- Keep it short (1-3 words max per term)
-- Remove articles like "the", "a", "an", "meri", "mere", "mera"
-- Examples:
-  - "Closed-Won picklist kahan use hoti hai?" → "Closed-Won"
-  - "Account object ke bare mein batao" → "Account"
-  - "Where is Hard Code text 'Submit'" → "Submit"
+- Generate ONLY a valid JSON object, nothing else. No markdown, no explanation.
+- Use "soql" array for data (e.g., Accounts, Opportunities, Custom Objects). Use aggregate queries if asking for counts/sums.
+- Use "tooling" array for metadata (e.g., ValidationRule, CustomField, ApexClass, WorkflowRule).
+- Queries MUST be read-only (SELECT).
+- If no query is needed, return empty arrays.
 
-Return ONLY the search term, nothing else.`;
+Example format:
+{
+  "soql": ["SELECT COUNT(Id) FROM Opportunity WHERE IsWon = true", "SELECT Name, Amount FROM Opportunity ORDER BY Amount DESC LIMIT 5"],
+  "tooling": ["SELECT DeveloperName FROM ValidationRule WHERE Active=true"]
+}`;
 
-        let searchTerms = await callGemini(extractPrompt, GEMINI_API_KEY);
-        searchTerms = searchTerms.trim().replace(/['"]/g, '');
+        let aiResponse = await callGemini(extractPrompt, GEMINI_API_KEY);
+        // Clean up markdown if any
+        aiResponse = aiResponse.replace(/```json/gi, '').replace(/```/g, '').trim();
         
-        console.log(`🤖 AI extracted search terms: ${searchTerms}`);
-
-        // Step 2: Org scan karo
-        const terms = searchTerms.split(',').map(t => t.trim()).filter(t => t.length >= 2).slice(0, 2);
-        let allMatches = [];
-        
-        for (const term of terms) {
-            const matches = await runScan(conn, term);
-            allMatches = allMatches.concat(matches);
+        let queries = { soql: [], tooling: [] };
+        try {
+            queries = JSON.parse(aiResponse);
+        } catch (e) {
+            console.error("AI returned invalid JSON:", aiResponse);
+            // Fallback if parsing fails
         }
 
-        // Deduplicate
-        const seen = new Set();
-        allMatches = allMatches.filter(m => {
-            const key = `${m.type}-${m.name}`;
-            if (seen.has(key)) return false;
-            seen.add(key);
-            return true;
-        });
+        console.log(`🤖 AI generated queries:`, queries);
 
-        // Step 3: Gemini se answer format karo
-        const resultSummary = allMatches.length > 0
-            ? allMatches.slice(0, 30).map(m => `- [${m.type}] ${m.name}: ${m.detail}`).join('\n')
-            : 'No matches found in the org.';
+        let queryResults = [];
+        
+        // Step 2: Execute SOQL Queries
+        if (queries.soql && Array.isArray(queries.soql)) {
+            for (const q of queries.soql) {
+                try {
+                    const result = await conn.query(q);
+                    // Remove jsforce specific attributes to save token space
+                    const cleanRecords = result.records.map(r => {
+                        const { attributes, ...rest } = r;
+                        return rest;
+                    });
+                    queryResults.push({ type: 'SOQL', query: q, success: true, totalSize: result.totalSize, records: cleanRecords.slice(0, 30) });
+                } catch (err) {
+                    queryResults.push({ type: 'SOQL', query: q, success: false, error: err.message });
+                }
+            }
+        }
 
-        const answerPrompt = `You are a helpful Salesforce org assistant. Answer in the SAME LANGUAGE the user asked in (Hindi/English/Hinglish).
+        // Step 3: Execute Tooling Queries
+        if (queries.tooling && Array.isArray(queries.tooling)) {
+            for (const q of queries.tooling) {
+                try {
+                    const result = await conn.tooling.query(q);
+                    const cleanRecords = result.records.map(r => {
+                        const { attributes, ...rest } = r;
+                        return rest;
+                    });
+                    queryResults.push({ type: 'Tooling', query: q, success: true, totalSize: result.totalSize, records: cleanRecords.slice(0, 30) });
+                } catch (err) {
+                    queryResults.push({ type: 'Tooling', query: q, success: false, error: err.message });
+                }
+            }
+        }
+
+        // Step 4: Feed data back to Gemini for the final answer
+        const answerPrompt = `You are a highly intelligent Salesforce AI Assistant. Answer in the SAME LANGUAGE the user asked in (Hindi/English/Hinglish).
 
 User Question: "${userMessage}"
 
-Org Scan Results (searched for: "${searchTerms}"):
-${resultSummary}
+You decided to run these queries against the user's Salesforce Org. Here are the real-time results from the database:
+${JSON.stringify(queryResults, null, 2)}
 
 Instructions:
-- Answer in the SAME language as the user's question
-- Be concise but complete
-- Highlight the key findings
-- If no results found, say so clearly and suggest what the user can try
-- Format nicely with bullet points if multiple items
-- Keep answer under 200 words`;
+- Answer the user's question directly and accurately based ONLY on the provided query results.
+- If a query failed (success: false), mention that you couldn't retrieve that specific data due to an error, and provide the error message briefly.
+- Format nicely with bullet points, bold text, or markdown tables if appropriate.
+- Be concise but complete.
+- Answer in the SAME language as the user's question.`;
 
         const answer = await callGemini(answerPrompt, GEMINI_API_KEY);
 
         res.json({ 
             answer, 
-            matches: allMatches,
-            searchedFor: searchTerms,
-            matchCount: allMatches.length
+            queriesRun: queryResults.length,
+            rawResults: queryResults
         });
 
     } catch (err) {
